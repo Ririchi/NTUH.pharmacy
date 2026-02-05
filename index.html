@@ -22,17 +22,291 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;  
             overflow: hidden;
+        :root {
+            color-scheme: light;
+            --blue-600: #2563eb;
+            --blue-50: #eff6ff;
+            --emerald-50: #ecfdf5;
+            --emerald-600: #059669;
+            --purple-50: #f5f3ff;
+            --purple-600: #7c3aed;
+            --orange-50: #fff7ed;
+            --orange-400: #fb923c;
+            --orange-500: #f97316;
+            --orange-600: #ea580c;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-300: #cbd5f5;
+            --slate-400: #94a3b8;
+            --slate-500: #64748b;
+            --slate-700: #334155;
+            --slate-800: #1f2937;
         }
         .animate-fade-in {
             animation: fadeIn 0.5s ease-out forwards;
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, -apple-system, sans-serif;
+            background: var(--slate-50);
+            color: var(--slate-800);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: #fff;
+            border-bottom: 1px solid var(--slate-200);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
+        }
+
+        .header-inner {
+            padding: 24px 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: var(--blue-600);
+            color: #fff;
+        }
+
+        .title {
+            margin: 6px 0 4px;
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: -0.01em;
+        }
+
+        .subtitle {
+            margin: 0;
+            font-size: 12px;
+            color: var(--slate-400);
+            font-weight: 600;
+        }
+
+        .search-wrapper {
+            position: relative;
+            width: min(100%, 320px);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 14px 12px 40px;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            background: var(--slate-100);
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--blue-600);
+            background: #fff;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            top: 50%;
+            left: 12px;
+            transform: translateY(-50%);
+            color: var(--slate-400);
+            font-size: 14px;
+        }
+
+        main {
+            padding: 32px 0 60px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .section-bar {
+            width: 6px;
+            height: 22px;
+            border-radius: 999px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid var(--slate-200);
+            border-radius: 16px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-height: 220px;
+            transition: 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: var(--blue-600);
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .icon-pill {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .link-button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--slate-400);
+        }
+
+        .card-title {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--slate-800);
+            cursor: pointer;
+        }
+
+        .card-desc {
+            margin: 0;
+            font-size: 13px;
+            color: var(--slate-500);
+            line-height: 1.5;
+            min-height: 40px;
+        }
+
+        .extra-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .extra-link {
+            border: 1px solid var(--slate-200);
+            background: var(--slate-100);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--slate-600);
+            cursor: pointer;
+        }
+
+        .login-hint {
+            margin-top: auto;
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            font-size: 12px;
+            background: var(--orange-50);
+            color: var(--orange-600);
+            padding: 6px 8px;
+            border-radius: 8px;
+        }
+
+        .maint-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .maint-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 10px;
+        }
+
+        .maint-card {
+            background: #fff;
+            border: 1px solid var(--slate-200);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: 0.2s ease;
+            font-weight: 700;
+            color: var(--slate-700);
+        }
+
+        .maint-card:hover {
+            border-color: var(--orange-400);
+            background: var(--orange-50);
+            color: var(--orange-600);
+        }
+
+        footer {
+            padding: 0 0 24px;
+            text-align: center;
+            color: var(--slate-400);
+            font-size: 12px;
+        }
+
+        .footer-line {
+            height: 1px;
+            background: var(--slate-200);
+            margin: 24px 0 16px;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
+
+        .muted {
+            color: var(--slate-400);
         }
     </style>
 </head>
 <body class="bg-slate-50">
+<body>
     <div id="root"></div>
 
     <script type="text/babel">
@@ -93,8 +367,72 @@
                             {type === 'inventory' && <PackageCheck size={20} />}
                             {type === 'system' && <Settings size={20} />}
                             {type === 'cloud' && <ClipboardList size={20} />}
+    <script>
+        const systemTools = [
+            { title: "藥劑部交班系統", desc: "每日交班事項與臨床註記", link: "https://ylhiis01.ylh.gov.tw/PharmacyHandover/Default", login: "帳密同 Portal", type: "system" },
+            { title: "換班與預假系統", desc: "個人排班查詢、換班及預假申請", link: "https://ylhwebsrv-bc.ylh.gov.tw:8082/PharmacySchedule/Default", login: "帳密為同仁自訂", type: "system" },
+            { title: "急救盤換發系統", desc: "各單位急救盤換發管理", link: "https://ylhiis01.ylh.gov.tw/EmergencyMedicineTray/Login/Index", login: "帳密同 Portal", type: "system" },
+            { title: "ADC 後台系統", desc: "ADC 藥品存量、使用紀錄查詢", link: "https://ylh-bd-app.ylh.gov.tw/Authentication/SignIn?ReturnUrl=%2f", login: "帳密同 Portal", type: "system" },
+            { title: "急診機器人後台", desc: "急診機器人運作狀態監控", link: "https://portal.cloud.wifundity.com/amr#/", login: "帳號：Y06100@ms1.ylh.gov.tw，密碼為麗珺員編", extraLinks: [{ label: "機器人使用步驟", url: "https://ntuhgovtw-my.sharepoint.com/:b:/g/personal/y06100_ylh_gov_tw/IQBeA6CFoVr4ToaROvEypiS5AZU-IbuZm79af269RnVR4Bg" }], type: "system" },
+            { title: "藥劑部 OneDrive", desc: "部內文件、公文與規範存放區", link: "https://ntuhgovtw-my.sharepoint.com/:f:/g/personal/y06100_ylh_gov_tw/IgDixgBcUKNbSZuXR8tgZkN5AYZs0f6Bq2WfqrfZPZtjbUU", login: "帳密同 Outlook", type: "cloud" },
+            { title: "救護車系統", desc: "救護車調派與藥品紀錄", link: "https://ylhwebsrv-bc.ylh.gov.tw:8082/Ambulanceline/Default", login: "帳密同 Portal", extraLinks: [{ label: "作業流程", url: "https://ntuhgovtw-my.sharepoint.com/:b:/g/personal/y06100_ylh_gov_tw/IQC3H8ZaKZn5TLjutkrBNqVQATg3yQ24uG8xGme6qsuCBks" }, { label: "系統說明", url: "https://ntuhgovtw-my.sharepoint.com/:b:/g/personal/y06100_ylh_gov_tw/IQD_tbUxadVpRLA3WOwJXuk9Ab7ZjLEI5NjPPGxTb_-sXCc" }], type: "system" },
+        ];
+
+        const inventoryTools = [
+            { title: "智慧調劑台盤點系統", desc: "智慧調劑台專用盤點後台", link: "http://172.22.29.232:8080/admin-login", login: "帳密均為 Y 員編，Y 大寫", type: "inventory" },
+            { title: "藥品盤點系統", desc: "其餘藥品盤點後台", link: "https://yldepweb.ylh.gov.tw/jnn/drugcnt/ad_login.php", login: "帳密同差勤", type: "inventory" },
+        ];
+
+        const aiTools = [
+            { title: "新人友善求救機器人", desc: "解決臨床常見疑問，新人後盾", link: "https://app.chatbit.co/iframe/3883a763-c21b-4cdb-9269-aef99ba6911c", type: "ai" },
+            { title: "藥庫找藥小幫手", desc: "查詢藥品存放位置與庫存", link: "https://app.chatbit.co/iframe/09b09423-71fd-4e4b-b2e1-d015d28fd439", type: "ai" },
+            { title: "抗凝血藥品小助手", desc: "Anticoagulants 劑量監測建議", link: "https://app.chatbit.co/iframe/a1911c17-e802-424a-8b19-158cd136c7b7", type: "ai" },
+            { title: "柚子交互作用問答", desc: "中草藥、食物與藥品交互作用", link: "https://app.chatbit.co/iframe/b5b0a5dd-605d-45f9-b3cc-63250e114711", type: "ai" },
+            { title: "乳癌藥物衛教小幫手", desc: "化療與標靶藥物衛教諮詢", link: "https://app.chatbit.co/iframe/39d62e96-8bea-483f-acfb-02fb820a32a8", type: "ai" },
+        ];
+
+        const maintCategories = [
+            { label: "Pandora 每日保養", items: [{ title: "Pandora A", link: "https://ylhprog.ylh.gov.tw/PW/form_login.php?code=307011425300004" }, { title: "Pandora B", link: "https://ylhprog.ylh.gov.tw/PW/form_login.php?code=50103060700022" }, { title: "Pandora C", link: "https://ylhprog.ylh.gov.tw/PW/form_login.php?code=307011425300005" }, { title: "Pandora D", link: "https://ylhprog.ylh.gov.tw/PW/form_login.php?code=307011425300003" }] },
+            { label: "冰箱 每月保養", items: [{ title: "IA 冰箱", link: "https://ylhprog.ylh.gov.tw/PW/form_login.php?code=50101070800039" }, { title: "IB-1 冰箱", link: "https://ylhprog.ylh.gov.tw/PW/form_login.php?code=50101070800036" }, { title: "IB-2 冰箱", link: "https://ylhprog.ylh.gov.tw/PW/form_login.php?code=50101070800037" }, { title: "IC 冰箱", link: "https://ylhprog.ylh.gov.tw/PW/form_login.php?code=50101070800040" }] },
+            { label: "其餘機器 工作日保養", items: [{ title: "針劑機", link: "https://ylhprog.ylh.gov.tw/PW/form_login.php?code=30126092100022" }, { title: "大人磨粉機", link: "https://ylhprog.ylh.gov.tw/PW/form_login.php?code=30126092100019" }, { title: "小兒磨粉機", link: "https://ylhprog.ylh.gov.tw/PW/form_login.php?code=30126092100020" }, { title: "住院 tosho", link: "https://ylhprog.ylh.gov.tw/PW/form_login.php?code=30126092100027" }, { title: "門診 tosho", link: "https://ylhprog.ylh.gov.tw/PW/form_login.php?code=30126090300003" }, { title: "鑫牛", link: "https://ylhprog.ylh.gov.tw/PW/form_login.php?code=30126090300006" }] }
+        ];
+
+        const iconMap = {
+            system: "⚙️",
+            inventory: "📦",
+            ai: "🤖",
+            cloud: "☁️",
+        };
+
+        const sectionColors = {
+            system: "#2563eb",
+            inventory: "#10b981",
+            ai: "#7c3aed",
+            maint: "#f97316",
+        };
+
+        const root = document.getElementById('root');
+        let isMaintOpen = true;
+
+        const matchesSearch = (text, search) => text.toLowerCase().includes(search.toLowerCase());
+
+        const createCard = (item) => {
+            const extraLinksHtml = item.extraLinks
+                ? `<div class="extra-links">${item.extraLinks.map((ex) => `<button class="extra-link" data-url="${ex.url}">📘 ${ex.label}</button>`).join('')}</div>`
+                : '';
+
+            const loginHint = item.login
+                ? `<div class="login-hint">🔑 ${item.login}</div>`
+                : '';
+
+            return `
+                <div class="card" data-link="${item.link}">
+                    <div class="card-header">
+                        <div class="icon-pill" style="background:${item.type === 'ai' ? 'var(--purple-50)' : item.type === 'inventory' ? 'var(--emerald-50)' : 'var(--blue-50)'}; color:${item.type === 'ai' ? 'var(--purple-600)' : item.type === 'inventory' ? 'var(--emerald-600)' : 'var(--blue-600)'};">
+                            ${iconMap[item.type] || '🔗'}
                         </div>
                         <ExternalLink size={14} className="text-slate-300 group-hover:text-blue-500 cursor-pointer" onClick={() => window.open(link, '_blank')} />
+                        <button class="link-button" data-link="${item.link}">↗</button>
                     </div>
                     <h3 className="font-bold text-slate-800 text-lg mb-1 group-hover:text-blue-600 transition-colors cursor-pointer" onClick={() => window.open(link, '_blank')}>{title}</h3>
                     <p className="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-2">{desc}</p>
@@ -109,14 +447,43 @@
                         <Info size={12} className="text-orange-400 shrink-0 mt-0.5" />
                         <span className="text-xs font-medium text-orange-600 bg-orange-50 px-2 py-0.5 rounded leading-tight text-left">🔑 {login}</span>
                     </div>}
+                    <h3 class="card-title" data-link="${item.link}">${item.title}</h3>
+                    <p class="card-desc">${item.desc}</p>
+                    ${extraLinksHtml}
+                    ${loginHint}
                 </div>
             );
+            `;
+        };
+
+        const createMaintCard = (item) => `
+            <div class="maint-card" data-link="${item.link}">
+                <span>📄 ${item.title}</span>
+                <span>↗</span>
+            </div>
+        `;
 
             const MaintCard = ({ title, link }) => (
                 <div onClick={() => window.open(link, '_blank')} className="bg-white border border-slate-100 rounded-lg p-3 flex items-center justify-between hover:bg-orange-50 hover:border-orange-200 transition-all cursor-pointer group animate-fade-in">
                     <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-orange-100 group-hover:text-orange-500 transition-colors">
                             <FileText size={16} />
+        const render = (search = '') => {
+            const filteredSystems = systemTools.filter((item) => matchesSearch(item.title + item.desc + (item.login || ''), search));
+            const filteredInventory = inventoryTools.filter((item) => matchesSearch(item.title + item.desc, search));
+            const filteredAis = aiTools.filter((item) => matchesSearch(item.title + item.desc, search));
+
+            root.innerHTML = `
+                <header>
+                    <div class="container header-inner">
+                        <div>
+                            <span class="badge">V6.0</span>
+                            <h1 class="title">藥劑部 AI 導航中心</h1>
+                            <p class="subtitle">臺大醫院雲林分院 Pharmacy Department</p>
+                        </div>
+                        <div class="search-wrapper">
+                            <span class="search-icon">🔍</span>
+                            <input id="searchInput" class="search-input" type="text" placeholder="搜尋系統、盤點、保養..." value="${search}">
                         </div>
                         <span className="text-sm font-semibold text-slate-700 group-hover:text-orange-700">{title}</span>
                     </div>
@@ -134,13 +501,24 @@
                                     <h1 className="text-2xl font-black text-slate-800 tracking-tight">藥劑部 AI 導航中心</h1>
                                 </div>
                                 <p className="text-slate-400 text-xs font-medium">臺大醫院雲林分院 Pharmacy Department</p>
+                </header>
+                <main class="container">
+                    ${filteredSystems.length ? `
+                        <section>
+                            <div class="section-title">
+                                <span class="section-bar" style="background:${sectionColors.system}"></span>
+                                行政與作業系統
                             </div>
                             <div className="relative w-full md:w-80">
                                 <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                                 <input type="text" placeholder="搜尋系統、盤點、保養..." className="w-full pl-10 pr-4 py-2.5 bg-slate-100 border-transparent focus:bg-white focus:ring-2 focus:ring-blue-500 rounded-xl text-sm transition-all outline-none" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                            <div class="grid">
+                                ${filteredSystems.map(createCard).join('')}
                             </div>
                         </div>
                     </div>
+                        </section>
+                    ` : ''}
 
                     <main className="max-w-6xl mx-auto px-4 py-8">
                         {/* 行政系統區 */}
@@ -183,6 +561,7 @@
                         )}
 
                         {/* 保養卡區 */}
+                    ${filteredInventory.length ? `
                         <section>
                             <div className="flex items-center justify-between mb-6 cursor-pointer group select-none" onClick={() => setIsMaintOpen(!isMaintOpen)}>
                                 <div className="flex items-center gap-3">
@@ -193,6 +572,24 @@
                                     <span className="text-xs font-medium">{isMaintOpen ? '點擊收摺' : '點擊展開'}</span>
                                     {isMaintOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                                 </div>
+                            <div class="section-title">
+                                <span class="section-bar" style="background:${sectionColors.inventory}"></span>
+                                盤點作業專區
+                            </div>
+                            <div class="grid">
+                                ${filteredInventory.map(createCard).join('')}
+                            </div>
+                        </section>
+                    ` : ''}
+
+                    ${filteredAis.length ? `
+                        <section>
+                            <div class="section-title">
+                                <span class="section-bar" style="background:${sectionColors.ai}"></span>
+                                AI 臨床小助手
+                            </div>
+                            <div class="grid">
+                                ${filteredAis.map(createCard).join('')}
                             </div>
                             {isMaintOpen && <div className="space-y-8">
                                 {maintCategories.map((cat, i) => {
@@ -220,14 +617,73 @@
                         <div className="flex items-center justify-center gap-1.5 text-slate-400 text-xs font-medium">
                             <User size={12} />
                             <span>維護人：陳麗珺 #562188</span>
+                    ` : ''}
+
+                    <section>
+                        <div class="maint-toggle" id="maintToggle">
+                            <div class="section-title" style="margin-bottom:0;">
+                                <span class="section-bar" style="background:${sectionColors.maint}"></span>
+                                機器與冰箱保養卡
+                            </div>
+                            <span class="muted">${isMaintOpen ? '點擊收摺' : '點擊展開'}</span>
                         </div>
                     </footer>
                 </div>
             );
+                        <div id="maintContent" style="margin-top:16px; ${isMaintOpen ? '' : 'display:none;'}">
+                            ${maintCategories.map((cat) => {
+                                const catItems = cat.items.filter((item) => matchesSearch(item.title, search));
+                                if (!catItems.length) return '';
+                                return `
+                                    <div style="margin-bottom:24px;">
+                                        <div style="font-weight:700; color: var(--slate-400); margin-bottom:10px;">
+                                            ${cat.label}
+                                        </div>
+                                        <div class="maint-grid">
+                                            ${catItems.map(createMaintCard).join('')}
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </section>
+                </main>
+                <footer class="container">
+                    <div class="footer-line"></div>
+                    <div style="font-size:10px; font-weight:700; text-transform:uppercase; margin-bottom:8px;">© 2026 臺大醫院雲林分院 藥劑部 · 智慧藥學導航系統</div>
+                    <div>👤 維護人：陳麗珺 #562188</div>
+                </footer>
+            `;
+
+            document.getElementById('searchInput').addEventListener('input', (event) => {
+                render(event.target.value);
+            });
+
+            const maintToggle = document.getElementById('maintToggle');
+            maintToggle.addEventListener('click', () => {
+                isMaintOpen = !isMaintOpen;
+                render(document.getElementById('searchInput').value);
+            });
+
+            root.querySelectorAll('[data-link]').forEach((el) => {
+                el.addEventListener('click', () => {
+                    const url = el.getAttribute('data-link');
+                    window.open(url, '_blank');
+                });
+            });
+
+            root.querySelectorAll('[data-url]').forEach((el) => {
+                el.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    const url = el.getAttribute('data-url');
+                    window.open(url, '_blank');
+                });
+            });
         };
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
+        render('');
     </script>
 </body>
 </html>
