@@ -6,11 +6,12 @@
     <title>藥劑部 AI 導航中心 V6.0</title>
     <!-- 使用 Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- React & Lucide Icons -->
+    <!-- React & Lucide-React Icons (修正為 React 專用版本) -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide-react"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Noto Sans TC', sans-serif; }
@@ -20,6 +21,14 @@
             -webkit-box-orient: vertical;  
             overflow: hidden;
         }
+        /* 增加進入動畫 */
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body class="bg-slate-50">
@@ -27,13 +36,13 @@
 
     <script type="text/babel">
         const { useState } = React;
-        const { Search, ExternalLink, Settings, Bot, ClipboardList, FileText, Info, ChevronDown, ChevronUp, PackageCheck, BookOpen, User } = lucide;
-
-        // 封裝 Icon 組件以供 React 使用
-        const Icon = ({ name, size = 20, className = "" }) => {
-            const LucideIcon = lucide[name];
-            return <LucideIcon size={size} className={className} />;
-        };
+        
+        // 修正 Lucide 圖示存取方式
+        const { 
+            Search, ExternalLink, Settings, Bot, ClipboardList, 
+            FileText, Info, ChevronDown, ChevronUp, PackageCheck, 
+            BookOpen, User 
+        } = Lucide;
 
         const App = () => {
             const [searchTerm, setSearchTerm] = useState('');
@@ -68,43 +77,49 @@
                 { label: "其餘機器 工作日保養", items: [{ title: "針劑機", link: "https://ylhprog.ylh.gov.tw/PW/form_login.php?code=30126092100022" }, { title: "大人磨粉機", link: "https://ylhprog.ylh.gov.tw/PW/form_login.php?code=30126092100019" }, { title: "小兒磨粉機", link: "https://ylhprog.ylh.gov.tw/PW/form_login.php?code=30126092100020" }, { title: "住院 tosho", link: "https://ylhprog.ylh.gov.tw/PW/form_login.php?code=30126092100027" }, { title: "門診 tosho", link: "https://ylhprog.ylh.gov.tw/PW/form_login.php?code=30126090300003" }, { title: "鑫牛", link: "https://ylhprog.ylh.gov.tw/PW/form_login.php?code=30126090300006" }] }
             ];
 
-            const filteredSystems = systemTools.filter(t => t.title.includes(searchTerm));
-            const filteredInventory = inventoryTools.filter(t => t.title.includes(searchTerm));
-            const filteredAIs = aiTools.filter(t => t.title.includes(searchTerm));
+            // 修正搜尋邏輯：改為不區分大小寫
+            const matchesSearch = (text) => text.toLowerCase().includes(searchTerm.toLowerCase());
+
+            const filteredSystems = systemTools.filter(t => matchesSearch(t.title) || matchesSearch(t.desc) || (t.login && matchesSearch(t.login)));
+            const filteredInventory = inventoryTools.filter(t => matchesSearch(t.title) || matchesSearch(t.desc));
+            const filteredAIs = aiTools.filter(t => matchesSearch(t.title) || matchesSearch(t.desc));
 
             const Card = ({ title, desc, link, login, type, extraLinks }) => (
-                <div className="group relative bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all duration-300 hover:shadow-md hover:border-blue-400 flex flex-col h-full overflow-hidden">
+                <div className="group relative bg-white rounded-xl p-5 shadow-sm border border-slate-200 transition-all duration-300 hover:shadow-md hover:border-blue-400 flex flex-col h-full overflow-hidden animate-fade-in">
                     <div className="flex justify-between items-start mb-3">
                         <div className={`p-2 rounded-lg ${type === 'ai' ? 'bg-purple-50 text-purple-600' : type === 'inventory' ? 'bg-emerald-50 text-emerald-600' : 'bg-blue-50 text-blue-600'}`}>
-                            <Icon name={type === 'ai' ? 'Bot' : type === 'inventory' ? 'PackageCheck' : 'Settings'} />
+                            {type === 'ai' && <Bot size={20} />}
+                            {type === 'inventory' && <PackageCheck size={20} />}
+                            {type === 'system' && <Settings size={20} />}
+                            {type === 'cloud' && <ClipboardList size={20} />}
                         </div>
-                        <Icon name="ExternalLink" size={14} className="text-slate-300 group-hover:text-blue-500 cursor-pointer" onClick={() => window.open(link, '_blank')} />
+                        <ExternalLink size={14} className="text-slate-300 group-hover:text-blue-500 cursor-pointer" onClick={() => window.open(link, '_blank')} />
                     </div>
                     <h3 className="font-bold text-slate-800 text-lg mb-1 group-hover:text-blue-600 transition-colors cursor-pointer" onClick={() => window.open(link, '_blank')}>{title}</h3>
                     <p className="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-2">{desc}</p>
                     {extraLinks && <div className="flex flex-wrap gap-2 mb-4">
                         {extraLinks.map((ex, i) => (
                             <button key={i} onClick={() => window.open(ex.url, '_blank')} className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-blue-600 rounded-md text-xs font-bold transition-colors border border-slate-200">
-                                <Icon name="BookOpen" size={12} /> {ex.label}
+                                <BookOpen size={12} /> {ex.label}
                             </button>
                         ))}
                     </div>}
                     {login && <div className="mt-auto pt-3 border-t border-slate-50 flex items-start gap-2">
-                        <Icon name="Info" size={12} className="text-orange-400 shrink-0 mt-0.5" />
+                        <Info size={12} className="text-orange-400 shrink-0 mt-0.5" />
                         <span className="text-xs font-medium text-orange-600 bg-orange-50 px-2 py-0.5 rounded leading-tight text-left">🔑 {login}</span>
                     </div>}
                 </div>
             );
 
             const MaintCard = ({ title, link }) => (
-                <div onClick={() => window.open(link, '_blank')} className="bg-white border border-slate-100 rounded-lg p-3 flex items-center justify-between hover:bg-orange-50 hover:border-orange-200 transition-all cursor-pointer group">
+                <div onClick={() => window.open(link, '_blank')} className="bg-white border border-slate-100 rounded-lg p-3 flex items-center justify-between hover:bg-orange-50 hover:border-orange-200 transition-all cursor-pointer group animate-fade-in">
                     <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-orange-100 group-hover:text-orange-500 transition-colors">
-                            <Icon name="FileText" size={16} />
+                            <FileText size={16} />
                         </div>
                         <span className="text-sm font-semibold text-slate-700 group-hover:text-orange-700">{title}</span>
                     </div>
-                    <Icon name="ExternalLink" size={12} className="text-slate-200 group-hover:text-orange-400" />
+                    <ExternalLink size={12} className="text-slate-200 group-hover:text-orange-400" />
                 </div>
             );
 
@@ -120,43 +135,53 @@
                                 <p className="text-slate-400 text-xs font-medium">臺大醫院雲林分院 Pharmacy Department</p>
                             </div>
                             <div className="relative w-full md:w-80">
-                                <Icon name="Search" size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                                <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                                 <input type="text" placeholder="搜尋系統、盤點、保養..." className="w-full pl-10 pr-4 py-2.5 bg-slate-100 border-transparent focus:bg-white focus:ring-2 focus:ring-blue-500 rounded-xl text-sm transition-all outline-none" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                             </div>
                         </div>
                     </div>
 
                     <main className="max-w-6xl mx-auto px-4 py-8">
-                        <section className="mb-12">
-                            <div className="flex items-center gap-3 mb-6">
-                                <div className="h-6 w-1.5 bg-blue-600 rounded-full shadow-sm"></div>
-                                <h2 className="text-lg font-black text-slate-800">行政與作業系統</h2>
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
-                                {filteredSystems.map((item, idx) => <Card key={idx} {...item} />)}
-                            </div>
-                        </section>
+                        {/* 行政系統區 */}
+                        {filteredSystems.length > 0 && (
+                            <section className="mb-12">
+                                <div className="flex items-center gap-3 mb-6">
+                                    <div className="h-6 w-1.5 bg-blue-600 rounded-full shadow-sm"></div>
+                                    <h2 className="text-lg font-black text-slate-800">行政與作業系統</h2>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+                                    {filteredSystems.map((item, idx) => <Card key={idx} {...item} />)}
+                                </div>
+                            </section>
+                        )}
 
-                        <section className="mb-12">
-                            <div className="flex items-center gap-3 mb-6">
-                                <div className="h-6 w-1.5 bg-emerald-500 rounded-full shadow-sm"></div>
-                                <h2 className="text-lg font-black text-slate-800">盤點作業專區</h2>
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
-                                {filteredInventory.map((item, idx) => <Card key={idx} {...item} />)}
-                            </div>
-                        </section>
+                        {/* 盤點區 */}
+                        {filteredInventory.length > 0 && (
+                            <section className="mb-12">
+                                <div className="flex items-center gap-3 mb-6">
+                                    <div className="h-6 w-1.5 bg-emerald-500 rounded-full shadow-sm"></div>
+                                    <h2 className="text-lg font-black text-slate-800">盤點作業專區</h2>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+                                    {filteredInventory.map((item, idx) => <Card key={idx} {...item} />)}
+                                </div>
+                            </section>
+                        )}
 
-                        <section className="mb-12">
-                            <div className="flex items-center gap-3 mb-6">
-                                <div className="h-6 w-1.5 bg-purple-600 rounded-full shadow-sm"></div>
-                                <h2 className="text-lg font-black text-slate-800">AI 臨床小助手</h2>
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
-                                {filteredAIs.map((item, idx) => <Card key={idx} {...item} />)}
-                            </div>
-                        </section>
+                        {/* AI 工具區 */}
+                        {filteredAIs.length > 0 && (
+                            <section className="mb-12">
+                                <div className="flex items-center gap-3 mb-6">
+                                    <div className="h-6 w-1.5 bg-purple-600 rounded-full shadow-sm"></div>
+                                    <h2 className="text-lg font-black text-slate-800">AI 臨床小助手</h2>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+                                    {filteredAIs.map((item, idx) => <Card key={idx} {...item} />)}
+                                </div>
+                            </section>
+                        )}
 
+                        {/* 保養卡區 */}
                         <section>
                             <div className="flex items-center justify-between mb-6 cursor-pointer group select-none" onClick={() => setIsMaintOpen(!isMaintOpen)}>
                                 <div className="flex items-center gap-3">
@@ -165,21 +190,25 @@
                                 </div>
                                 <div className="flex items-center gap-2 text-slate-400 group-hover:text-blue-500 transition-colors">
                                     <span className="text-xs font-medium">{isMaintOpen ? '點擊收摺' : '點擊展開'}</span>
-                                    <Icon name={isMaintOpen ? 'ChevronUp' : 'ChevronDown'} size={16} />
+                                    {isMaintOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                                 </div>
                             </div>
                             {isMaintOpen && <div className="space-y-8">
-                                {maintCategories.map((cat, i) => (
-                                    <div key={i}>
-                                        <h3 className="text-sm font-bold text-slate-400 mb-3 flex items-center gap-2 px-1">
-                                            <span className="w-1 h-4 bg-orange-200 rounded-full"></span>
-                                            {cat.label}
-                                        </h3>
-                                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                                            {cat.items.filter(item => item.title.includes(searchTerm)).map((item, idx) => <MaintCard key={idx} {...item} />)}
+                                {maintCategories.map((cat, i) => {
+                                    const catItems = cat.items.filter(item => matchesSearch(item.title));
+                                    if (catItems.length === 0) return null;
+                                    return (
+                                        <div key={i}>
+                                            <h3 className="text-sm font-bold text-slate-400 mb-3 flex items-center gap-2 px-1">
+                                                <span className="w-1 h-4 bg-orange-200 rounded-full"></span>
+                                                {cat.label}
+                                            </h3>
+                                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                                                {catItems.map((item, idx) => <MaintCard key={idx} {...item} />)}
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>}
                         </section>
                     </main>
@@ -188,7 +217,7 @@
                         <div className="h-px bg-slate-200 w-full mb-6"></div>
                         <p className="text-slate-400 text-[10px] tracking-wide uppercase font-bold mb-2">© 2026 臺大醫院雲林分院 藥劑部 · 智慧藥學導航系統</p>
                         <div className="flex items-center justify-center gap-1.5 text-slate-400 text-xs font-medium">
-                            <Icon name="User" size={12} />
+                            <User size={12} />
                             <span>維護人：陳麗珺 #562188</span>
                         </div>
                     </footer>
